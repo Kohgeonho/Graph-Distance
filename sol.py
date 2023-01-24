@@ -11,6 +11,10 @@ def input_list(dtype=int):
     return [dtype(i) for i in sys.stdin.readline().strip().split()]
 
 def BellmanFord(G, V, src, DMAX=10000001):
+    '''
+    Check if there is still updates after V+1 iterations.
+    If it is true, it means that there are negative cycles somewhere so it is keeps updating.
+    '''
     D = [DMAX] * (V + 1)
     D[src] = 0
 
@@ -33,6 +37,11 @@ for tc in range(input_single()):
     G = defaultdict(list)
     A = False
 
+    '''
+    Add fake node(0) and fake paths from node 0 to every other node with weight 0.
+    Then, starting from node 0, we can reach every other nodes and check if there is 
+    any negative cycles.
+    '''
     G[0] = [(0, s) for s in range(1, N+1)]
 
     for _ in range(M):
@@ -44,6 +53,7 @@ for tc in range(input_single()):
         s, d, w = input_list()
         G[s].append((-w, d))
 
+    '''Only check node 0'''
     A = BellmanFord(G, N, 0, DMAX=WMAX)
 
     print("YES" if A else "NO")

@@ -11,6 +11,11 @@ def input_list(dtype=int):
     return [dtype(i) for i in sys.stdin.readline().strip().split()]
 
 def BellmanFord(G, V, src, DMAX=10000001):
+    '''
+    While updating distances, if there is no updates, it means there is no negative cycles 
+    containing node src. If some point, distances from src to src is smaller than 0, 
+    it means that we found negative cycle.
+    '''
     D = [DMAX] * (V + 1)
     D[src] = 0
     update = True
@@ -44,6 +49,7 @@ for tc in range(input_single()):
         s, d, w = input_list()
         G[s].append((-w, d))
 
+    '''It should be done for every node.'''
     for v in range(1, N+1):
         if BellmanFord(G, N, v, DMAX=WMAX):
             A = True
