@@ -44,6 +44,8 @@ def Dijkstra(G, src, Gtype="dict", DMAX=10000001):
 ### [Bellman-Ford algorithm](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
   
 This algorithm is similar to Dijstra's algorithm but it **can also handle negative edge weights.** It uses a relaxation technique to update the shortest distance for each vertex.
+
+It is unable to used in graph that has **negative cycle**.
   
   - Time Complexity: O(VE)
   
@@ -52,15 +54,17 @@ This algorithm is similar to Dijstra's algorithm but it **can also handle negati
 ```python
 from itertools import chain
 
-def BellmanFord(G, src, Gtype="dict", DMAX=10000001):
-    D = [DMAX] * (len(G) + 1)
+def BellmanFord(G, V, src, Gtype="dict", DMAX=10000001):
+    D = [DMAX] * (V + 1)
     D[src] = 0
     update = True
 
-    while update > 0:
+    for i in range(V):
+        if not update:
+            break
         update = False
         for s, dist, d in chain((s, dist, d) for s in G for dist, d in G[s]):
-            if D[s] + dist < D[d]:
+            if D[s] < DMAX and D[s] + dist < D[d]:
                 update = True 
                 D[d] = D[s] + dist
 
@@ -123,3 +127,110 @@ Since the problem(1865) is weighted, signed graph, we cannot use Dijkstra and BF
   
 ## Experiments
 
+### Unweighted Graph
+
+```python
+V, E = 100000, 6000000
+T = GraphGenerator(V, E)
+G = GraphConverter(T, V, E, returnType="dict", weighted=False)
+
+Dijkstra(G, V, 1)
+BFS(G, V, 1)
+```
+
+|Algorithm|Time Complexity|Time(s)|
+|------|---|---|
+|Dijkstra|$O(V+ElogE)$|17.22|
+|BFS|$O(V+E)$|2.26|
+
+### Weighted Graph
+
+```python
+V, E = 20000, 300000
+T = GraphGenerator(V, E)
+G = GraphConverter(T, V, E, returnType="dict")
+
+Dijkstra(G, V, 1)
+BellmanFord(G, V, 1)
+```
+
+|Algorithm|Time Compelxity|Time(s)|
+|------|---|---|
+|Dijkstra|$O(V+ElogE)$|0.35|
+|Bellman-Ford|$O(VE)$|1.63|
+
+### Many-to-many
+
+```python
+V, E = 500, 2500
+T = GraphGenerator(V, E)
+G = GraphConverter(T, V, E, returnType="dict")
+M = GraphConverter(T, V, E, returnType="matrix")
+
+for v in range(1, V+1): 
+    Dijkstra(G, V, v)
+for v in range(1, V+1):
+    BellmanFord(G, V, v)
+Floyd(M, V)
+```
+
+|Algorithm|Time Complexity|Time(s)|
+|------|---|---|
+|Dijkstra|$O(V^2 + VElogE)$|0.74|
+|Bellman-Ford|$O(V^2E)$|2.70|
+|Floyd-Warshall|$O(V^3)$|42.17|
+|Bellman-Ford w/o early-stopping|$O(V^2E)$|236.96|
+
+- Early stopping (when there is no more update) in Bellman-Ford algorithm makes it faster than Floyd-Warshall, yet Bellman-Ford algorithm's time complexity for worst case is bigger than Floyd's.
+
+### E > V^2
+
+```
+V, E = 100, 100000
+T = GraphGenerator(V, E)
+G = GraphConverter(T, V, E, returnType="dict")
+M = GraphConverter(T, V, E, returnType="matrix")
+
+for v in range(1, V+1): 
+    Dijkstra(G, V, v)
+for v in range(1, V+1):
+    BellmanFord(G, V, v)
+Floyd(M, V)
+```
+
+|Algorithm|Time Complexity|Time(s)|
+|------|---|---|
+|Dijkstra|$O(V^2 + VElogE)$|24.18|
+|Bellman-Ford|$O(V^2E)$|15.26|
+|Floyd-Warshall|$O(V^3)$|0.32|
+|Dijkstra w/ matrix|$O(V^4)$|0.97|
+|Bellman-Ford w/ matrix|$O(V^4)$|0.77|
+
+* w/ matrix: limit the number of edges to $V^2$ by only choosing the minimum distance between two nodes.
+
+### Algorithm Comparison
+
+|Best Algorithm|Weighted|Signed|$E>V^2$|
+|------|---|---|---|
+|BFS|X|X|X|
+|Dijkstra|O|X|X|
+|Bellman-Ford|O|O|X|
+|Floyd-Warshall|O|O|O|
+
+## Memo
+
+- 위 실험의 결과에 따라 각 문제들은 다음 알고리즘으로 해결하는 것이 가장 효율적이다.
+
+|Problem|V|E|Weighted|Signed|Best Algorithm|
+|-------|-|-|--------|------|--------------|
+|[BaekJoon 1753 Shortest Path](https://www.acmicpc.net/problem/1753)|20000|300000|O|X|Dijkstra|
+|[BaekJoon 1865 Wormhole](https://www.acmicpc.net/problem/1865)|500|5200|O|O|Bellman-Ford|
+|[BaekJoon 11404 Floyd](https://www.acmicpc.net/problem/11404)|100|100000|O|X|Floyd-Warshall|
+
+- [1865번 웜홀](https://www.acmicpc.net/problem/1865 은 정석적인 Bellman-Ford 방식으로 풀면 Python3으로는 통과하지 못함 (94% TOE)
+  
+  Pypy3으로는 AC ([Code](https://github.com/Kohgeonho/Wormhole/edit/main/sol2.py))
+  
+  Bellman-Ford의 한계(negative cycle이 있으면 안된다)를 이용하면 $O(VE)$로 해결가능 ([Code](https://github.com/Kohgeonho/Wormhole/edit/main/sol.py))
+  
+  애초에 이 문제는 shortest distance가 아닌 negative cycle의 유무에 집중하기 때문 ([link](https://www.acmicpc.net/board/view/72995) 참고)
