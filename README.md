@@ -185,7 +185,7 @@ Floyd(M, V)
 
 ### E > V^2
 
-```
+```python
 V, E = 100, 100000
 T = GraphGenerator(V, E)
 G = GraphConverter(T, V, E, returnType="dict")
@@ -210,12 +210,12 @@ Floyd(M, V)
 
 ### Algorithm Comparison
 
-|Best Algorithm|Weighted|Signed|$E>V^2$|
+|Weighted|Signed|$E>V^2$|Best Algorithm|
 |------|---|---|---|
-|BFS|X|X|X|
-|Dijkstra|O|X|X|
-|Bellman-Ford|O|O|X|
-|Floyd-Warshall|O|O|O|
+|X|X|X|BFS|
+|O|X|X|Dijkstra|
+|O|O|X|Bellman-Ford|
+|O|O|O|Floyd-Warshall|
 
 ## Memo
 
@@ -227,7 +227,7 @@ Floyd(M, V)
 |[BaekJoon 1865 Wormhole](https://www.acmicpc.net/problem/1865)|500|5200|O|O|Bellman-Ford|
 |[BaekJoon 11404 Floyd](https://www.acmicpc.net/problem/11404)|100|100000|O|X|Floyd-Warshall|
 
-- [1865번 웜홀](https://www.acmicpc.net/problem/1865 은 정석적인 Bellman-Ford 방식으로 풀면 Python3으로는 통과하지 못함 (94% TOE)
+- [1865번 웜홀](https://www.acmicpc.net/problem/1865) 은 정석적인 Bellman-Ford 방식으로 풀면 Python3으로는 통과하지 못함 (94% TOE)
   
   Pypy3으로는 AC ([Code](https://github.com/Kohgeonho/Wormhole/edit/main/sol2.py))
   
