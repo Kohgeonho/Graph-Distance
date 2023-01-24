@@ -229,8 +229,8 @@ Floyd(M, V)
 
 - [1865번 웜홀](https://www.acmicpc.net/problem/1865) 은 정석적인 Bellman-Ford 방식으로 풀면 Python3으로는 통과하지 못함 (94% TOE)
   
-  Pypy3으로는 AC ([Code](https://github.com/Kohgeonho/Wormhole/edit/main/sol2.py))
+  Pypy3으로는 AC ([Code](https://github.com/Kohgeonho/Wormhole/blob/main/sol2.py))
   
-  Bellman-Ford의 한계(negative cycle이 있으면 안된다)를 이용하면 $O(VE)$로 해결가능 ([Code](https://github.com/Kohgeonho/Wormhole/edit/main/sol.py))
+  Bellman-Ford의 한계(negative cycle이 있으면 안된다)를 이용하면 $O(VE)$로 해결가능 ([Code](https://github.com/Kohgeonho/Wormhole/blob/main/sol.py))
   
   애초에 이 문제는 shortest distance가 아닌 negative cycle의 유무에 집중하기 때문 ([link](https://www.acmicpc.net/board/view/72995) 참고)
