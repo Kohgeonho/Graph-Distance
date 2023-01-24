@@ -234,3 +234,9 @@ Floyd(M, V)
   Bellman-Ford의 한계(negative cycle이 있으면 안된다)를 이용하면 $O(VE)$로 해결가능 ([Code](https://github.com/Kohgeonho/Wormhole/blob/main/sol.py))
   
   애초에 이 문제는 shortest distance가 아닌 negative cycle의 유무에 집중하기 때문 ([link](https://www.acmicpc.net/board/view/72995) 참고)
+  
+- Class4에서 가장 어려웠고 배울점이 많았던 문제
+
+  ![image](https://user-images.githubusercontent.com/62281102/214366849-74780068-6d20-403a-a0d5-21eab59c72aa.png)
+
+  
