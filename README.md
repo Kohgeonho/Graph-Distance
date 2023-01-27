@@ -79,7 +79,6 @@ This algorithm is an extension of Dijkstra's algorithm and it is used to find th
   
   - Python code
   
-    [Sliding-Puzzle](https://github.com/Kohgeonho/Sliding-Puzzle)
 
 ### [BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
 
