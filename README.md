@@ -2,8 +2,6 @@
 ## Problems
 <img src="https://d2gd6pc034wcta.cloudfront.net/tier/13.svg" width="13pt"> [BaekJoon 1865 Wormhole](https://www.acmicpc.net/problem/1865)
 
-(related problems)
-
 <img src="https://d2gd6pc034wcta.cloudfront.net/tier/12.svg" width="13pt"> [BaekJoon 11404 Floyd](https://www.acmicpc.net/problem/11404)
 
 <img src="https://d2gd6pc034wcta.cloudfront.net/tier/12.svg" width="13pt"> [BaekJoon 1753 Shortest Path](https://www.acmicpc.net/problem/1753)
